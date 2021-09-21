@@ -312,7 +312,7 @@
       return obj;
     } else {
       var parameterObjects = Array.prototype.slice.call(arguments);
-      console.log(parameterObjects);
+
       for (var i = 0; i < parameterObjects.length; i++) {
         for (var key in parameterObjects[i]) {
           obj[key] = parameterObjects[i][key];
@@ -330,6 +330,27 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    if (arguments.length === 1) {
+      return obj;
+    } else {
+      var parameterObjects = Array.prototype.slice.call(arguments);
+
+      for (var i = 0; i < parameterObjects.length; i++) {
+        for (var key in parameterObjects[i]) {
+          if (obj[key] === undefined) {
+            obj[key] = parameterObjects[i][key];
+          }
+
+        }
+      }
+    }
+
+
+
+    return obj;
+
+
+
   };
 
 
@@ -373,6 +394,21 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var cache = {};
+
+    return function() {
+
+      var args = JSON.stringify(Array.prototype.slice.call(arguments));
+
+      if (args in cache) {
+        return cache[args];
+      } else {
+        cache[args] = func.apply(this, arguments);
+
+      }
+
+      return cache[args];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -382,6 +418,11 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments,2);
+    console.log(args);
+    setTimeout(func,wait,...args);
+
+//
   };
 
 
