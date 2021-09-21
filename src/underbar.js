@@ -197,19 +197,24 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    if (accumulator === undefined) {
-      accumulator = collection[0];
 
-      _.each(collection.slice(1), function(item) {
-        accumulator += iterator(accumulator, item);
+
+    if (accumulator === undefined) {
+      var values = _.map(collection, function(item) {
+        return item;
+      });
+      accumulator = values[0];
+
+      _.each(values.slice(1), function(item) {
+        accumulator = iterator(accumulator, item);
       });
       return accumulator;
 
 
 
     } else {
-      _.each(collection,function(item) {
-        accumulator += iterator(accumulator, item);
+      _.each(collection, function(item) {
+        accumulator = iterator(accumulator, item);
       });
     }
     return accumulator;
@@ -226,6 +231,9 @@
       return item === target;
     }, false);
   };
+
+
+
 
 
   // Determine whether all of the elements match a truth test.
