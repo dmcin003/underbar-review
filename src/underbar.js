@@ -239,12 +239,53 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    var isTrue;
+    if (collection.length === 0) {
+      return true;
+    } else {
+      if (iterator === undefined) {
+        //well do something else
+        isTrue = _.reduce(collection, function(allTrue, item) {
+          return allTrue && item;
+        }, true);
+      } else {
+        //iterator is defined
+        isTrue = _.reduce(collection, function(allTrue, item) {
+          return allTrue && iterator(item);
+        }, true);
+      }
+    }
+
+
+    return Boolean(isTrue);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    var isTrue;
+
+    if (collection.length === 0) {
+      return false;
+    } else {
+      if (iterator === undefined) {
+        //do something
+        isTrue = _.reduce(collection, function(someTrue, item) {
+          return someTrue || item;
+        }, false);
+
+
+      } else {
+        //iterator is defined and do something
+        isTrue = _.reduce(collection, function(someTrue, item) {
+          return someTrue || iterator(item);
+        }, false);
+
+
+      }
+    }
+    return Boolean(isTrue);
   };
 
 
@@ -266,8 +307,25 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(obj) {
+  _.extend = function (obj) {
+    if (arguments.length === 1) {
+      return obj;
+    } else {
+      var parameterObjects = Array.prototype.slice.call(arguments);
+      console.log(parameterObjects);
+      for (var i = 0; i < parameterObjects.length; i++) {
+        for (var key in parameterObjects[i]) {
+          obj[key] = parameterObjects[i][key];
+        }
+      }
+    }
+
+
+
+    return obj;
   };
+
+
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
