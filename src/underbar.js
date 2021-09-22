@@ -419,7 +419,7 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     var args = Array.prototype.slice.call(arguments, 2);
-    console.log(args);
+
     setTimeout(func, wait, ...args);
 
 
@@ -461,6 +461,22 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    var results = [];
+    var obj = {};
+    if (typeof(functionOrKey) === 'string') {
+      console.log(obj.functionOrKey);
+      _.each (collection, function(item) {
+        results.push(obj.functionOrKey.apply(item, args));
+      });
+
+    } else {
+      _.each (collection, function(item) {
+        results.push(functionOrKey.apply(item, args));
+      });
+    }
+
+
+    return results;
   };
 
   // Sort the object's values by a criterion produced by an iterator.
